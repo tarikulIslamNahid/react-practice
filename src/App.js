@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 
 import { BrowserRouter as Router,Routes,Route,Link } from 'react-router-dom'
+import Error from './pages/404';
 function App() {
 
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="*" element={<Error />} />
       </Routes>
       
         
