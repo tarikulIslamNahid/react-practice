@@ -1,44 +1,74 @@
 import './App.css';
 import Header from './components/header';
-import Footer from './components/Footer';
-import Card from './components/Card';
-import Movie from './components/Movie';
-import movies from './data/movies.json'
-import  { useState } from 'react';
-
+import Footer from './components/Footer'; 
+import  { useState, useEffect } from 'react';
+import Typography from '@mui/material/Typography'
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import Container from '@mui/material/Container'
 
 function App() {
-  const [num, setNum] = useState(1);
-  let info = {
-    name: 'Tarikul Islam',
-    age: '24',
-    address: 'lalbag dhaka'
-  }
-  function add() {
-    setNum(num+1);
-  }
-  function remove() {
-    setNum(num-1);
-  }
+    const [state, setState] = useState(20)
+    const [employees, setEmployees] = useState([])
+   useEffect(() => {
+   
+     return () => {
+       async function getData() {
+         let data = await fetch(`https://hub.dummyapis.com/employee?noofRecords=${state}&idStarts=1001`);
+         const res = await data.json();
+         console.log(res)
+         setEmployees(res)
+       }
+       getData()
+     }
+   }, [state])
+   
   return (
-    <div className="App">
-      <Header name='Top Header' />
-      <div className="increment">
-        <h1>Value: { num }</h1>
-        <div className="flex">
-          <button onClick={add} >Add</button>
-          <button onClick={remove} >Remove</button>
-        </div>
-        </div>
-      <Card data={info} />
-      {
-        movies.map((elem) => {
-          
-        return <Movie key={elem.imdbID} data={elem} />
-        })
-      }
-      <Footer/>
-    </div>
+    <>
+      <Container maxWidth="lg">
+  
+      {/* <Header name='Top Header' /> */}
+<Typography variant="h4" align='center' mt={4} color="#202020"> ({employees.length}) Employee List</Typography>
+<TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} size="medium" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>ID</TableCell>
+            <TableCell>Full Name</TableCell>
+            <TableCell align="right">Email</TableCell>
+            <TableCell align="right">Phone</TableCell>
+            <TableCell align="right">Age</TableCell>
+            <TableCell align="right">DOB</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {employees.map((row,index) => (
+            <TableRow
+              key={index}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+              <TableCell>{row.id}</TableCell>
+              <TableCell component="th" scope="row">
+                {row.firstName} {row.lastName}
+              </TableCell>
+              <TableCell align="right">{row.email}</TableCell>
+              <TableCell align="right">{row.contactNumber}</TableCell>
+              <TableCell align="right">{row.age}</TableCell>
+              <TableCell align="right">{row.dob}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+        </TableContainer>
+  </Container>
+        
+      {/* <Footer/> */}
+    </>
   );
 }
 
