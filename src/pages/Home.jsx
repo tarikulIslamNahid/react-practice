@@ -9,7 +9,10 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Container from '@mui/material/Container'
 import  { useState, useEffect } from 'react';
-
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
+import IconButton from '@mui/material/IconButton'
+import {Link } from 'react-router-dom'
+ 
 const Home = () => {
     const [state, setState] = useState(20)
     const [employees, setEmployees] = useState([])
@@ -40,6 +43,7 @@ const Home = () => {
             <TableCell align="right">Phone</TableCell>
             <TableCell align="right">Age</TableCell>
             <TableCell align="right">DOB</TableCell>
+            <TableCell align="right">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -56,6 +60,14 @@ const Home = () => {
               <TableCell align="right">{row.contactNumber}</TableCell>
               <TableCell align="right">{row.age}</TableCell>
               <TableCell align="right">{row.dob}</TableCell>
+                  <TableCell align="right">
+                  <Link  to={`/employee/${row.id}`}>
+                  <IconButton aria-label="view" color="primary">
+  <VisibilityOutlinedIcon />
+                      </IconButton>
+           </Link>
+                     
+                  </TableCell>
             </TableRow>
           ))}
         </TableBody>
